@@ -33,13 +33,13 @@ class sfMongoSessionStorage extends sfSessionStorage
   public function initialize($options = array())
   {
     $options = array_merge(array(
-      'db_name'         => sfConfig::get('app_mongodb_database'),
-      'collection_name' => 'mongo_session',
+      'db_name'         => sfConfig::get('app_sfMongoSessionStorage_db_name'),
+      'collection_name' => sfConfig::get('app_sfMongoSessionStorage_collection_name', 'mongo_session'),
       'db_id_col'       => 'sess_id',
       'db_data_col'     => 'sess_data',
       'db_time_col'     => 'sess_time',
-      'host'            => sfConfig::get('app_mongodb_host', 'localhost'),
-      'port'            => sfConfig::get('app_mongodb_port', '27017'),
+      'host'            => sfConfig::get('app_sfMongoSessionStorage_host', 'localhost'),
+      'port'            => sfConfig::get('app_sfMongoSessionStorage_port', '27017'),
     ), $options);
 
     // disable auto_start
