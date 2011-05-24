@@ -33,11 +33,13 @@ class sfMongoSessionStorage extends sfSessionStorage
   public function initialize($options = array())
   {
     $options = array_merge(array(
-      'db_id_col'   => 'sess_id',
-      'db_data_col' => 'sess_data',
-      'db_time_col' => 'sess_time',
-      'host' => 'localhost',
-      'port' => '27017',
+      'db_name'         => sfConfig::get('app_mongodb_database'),
+      'collection_name' => 'mongo_session',
+      'db_id_col'       => 'sess_id',
+      'db_data_col'     => 'sess_data',
+      'db_time_col'     => 'sess_time',
+      'host'            => sfConfig::get('app_mongodb_host', 'localhost'),
+      'port'            => sfConfig::get('app_mongodb_port', '27017'),
     ), $options);
 
     // disable auto_start
@@ -144,7 +146,7 @@ class sfMongoSessionStorage extends sfSessionStorage
     // get column
     $db_time_col = $this->options['db_time_col'];
 
-    // delete the record older than the authorised session life time 
+    // delete the record older than the authorised session life time
     if ($this->col->remove(array('$where' => sprintf('this.%s + %d < %d', $db_time_col, $lifetime, time()))))
     {
       return true;
